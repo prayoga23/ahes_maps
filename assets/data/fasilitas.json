@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Gedung Zam-zam",
+    "description": "Gedung Penginapan\nBagi Seluruh Calon\nJemaah Haji\nEmbarkasi Surabaya",
+    "distance": "3.73km",
+    "imagePath": "assets/image/zam-zam.jpg"
+  },
+  {
+    "title": "Gedung A2",
+    "description": "Gedung Penginapan\nBagi Seluruh Calon\nJemaah Haji\nEmbarkasi Surabaya",
+    "distance": "3.56km",
+    "imagePath": "assets/image/gedung_a2.jpg"
+  }
+] 

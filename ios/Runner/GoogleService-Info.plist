@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyB3jpMCCYIgyt39WytkskVByhns2E3e6io</string>
+	<key>GCM_SENDER_ID</key>
+	<string>990614392934</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ahesmaps.ahesMaps</string>
+	<key>PROJECT_ID</key>
+	<string>asrama-haji-ar-maps</string>
+	<key>STORAGE_BUCKET</key>
+	<string>asrama-haji-ar-maps.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:990614392934:ios:506f38074983d3e3e79da7</string>
+</dict>
+</plist>

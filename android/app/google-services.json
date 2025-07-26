@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "888229681052",
+    "project_id": "ahess-maps",
+    "storage_bucket": "ahess-maps.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888229681052:android:1c2049c52b1b32f5f25a59",
+        "android_client_info": {
+          "package_name": "com.ahesmaps.ahesMaps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeKk9JZV_P7Z7_qS6cdZ9SdhMXhQyywPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888229681052:android:ddad62a4cfb4e216f25a59",
+        "android_client_info": {
+          "package_name": "com.ahesmaps.ahes_maps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeKk9JZV_P7Z7_qS6cdZ9SdhMXhQyywPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
