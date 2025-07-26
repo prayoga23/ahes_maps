@@ -2,7 +2,6 @@ import 'package:ahes_maps/constants/colors.dart';
 import 'package:ahes_maps/controller/jemaah_controller/fix_maps_controller.dart';
 import 'package:ahes_maps/widgets/carousel_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
@@ -159,27 +158,11 @@ class FixMapsScreen extends StatelessWidget {
                   child: Obx(() {
                     final selectedItem = controller.asramaBaru[controller.pageIndex.value];
                     final namaGedung = selectedItem['nama_gedung'] ?? '';
-                    final mapCode = selectedItem['map_code'] as String?;
-                    final mapId = selectedItem['map_id'] as String?;
                     if (namaGedung.toString().toUpperCase() == "GEDUNG MUZDHALIFAH") {
                       return ElevatedButton.icon(
                         onPressed: () {
-                          if (mapCode != null && mapId != null) {
-                            Navigator.of(context).pushNamed(
-                              '/unity',
-                              arguments: {
-                                'mapId': mapId,      // Map ID dari ARwayKit
-                                'mapCode': mapCode,  // Map Code dari ARwayKit
-                              },
-                            );
-                          } else {
-                            CherryToast.error(
-                              title: const Text('Gagal Memuat AR'),
-                              description: const Text('Map ID atau Map Code tidak ditemukan.'),
-                              animationDuration: const Duration(milliseconds: 1000),
-                              autoDismiss: true,
-                            ).show(context);
-                          }
+                          // Navigate to WebAR screen
+                          Navigator.of(context).pushNamed('/webAR');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple,
@@ -254,12 +237,7 @@ class FixMapsScreen extends StatelessWidget {
                         backgroundColor: Colors.green,
                         iconColor: Colors.white,
                         onPressed: () {
-                          CherryToast.info(
-                            title: const Text('Fitur AR'),
-                            description: const Text('Fitur AR akan segera hadir!'),
-                            animationDuration: const Duration(milliseconds: 1000),
-                            autoDismiss: true,
-                          ).show(context);
+                          Navigator.of(context).pushNamed('/webAR');
                         },
                       ),
                     //   _buildControlButton(
@@ -308,33 +286,8 @@ class FixMapsScreen extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // 1. Dapatkan item yang sedang dipilih dari carousel
-                            final selectedItem = controller
-                                .asramaBaru[controller.pageIndex.value];
-
-                            // 2. Ambil Map Code dari data item.
-                            // PERHATIKAN: Saya berasumsi nama field di Firebase adalah 'map_code'.
-                            // Sesuaikan jika nama field Anda berbeda.
-                            final mapCode = selectedItem['map_code'] as String?;
-
-                            // 3. Pastikan mapCode tidak null sebelum navigasi
-                            if (mapCode != null && mapCode.isNotEmpty) {
-                              // 4. Navigasi ke layar AR dan kirim mapId
-                              Navigator.of(context).pushNamed(
-                                '/unity',
-                                arguments: {'mapId': mapCode},
-                              );
-                            } else {
-                              // Tampilkan pesan jika tidak ada map code
-                              CherryToast.error(
-                                title: const Text('Gagal Memuat AR'),
-                                description: const Text(
-                                    'Map Code untuk lokasi ini tidak ditemukan.'),
-                                animationDuration:
-                                    const Duration(milliseconds: 1000),
-                                autoDismiss: true,
-                              ).show(context);
-                            }
+                            // Navigate to WebAR screen
+                            Navigator.of(context).pushNamed('/webAR');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF1ED760),

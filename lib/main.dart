@@ -1,5 +1,6 @@
 import 'package:ahes_maps/screens/admin/home_admin_screen.dart';
 import 'package:ahes_maps/screens/login_screen.dart';
+import 'package:ahes_maps/screens/web_ar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -43,6 +44,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/login',
           page: () => LoginScreen(),
+        ),
+        GetPage(
+          name: '/webAR',
+          page: () => WebARScreen(),
         ),
       ],
     );
