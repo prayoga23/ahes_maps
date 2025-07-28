@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/fasilitas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'new_home_screen/ar_screen.dart'; // Fitur AR dinonaktifkan
+import 'facility_ar_screen.dart';
 
 class LokasiFasilitasPage extends StatefulWidget {
   const LokasiFasilitasPage({super.key});
@@ -206,15 +206,14 @@ class _LokasiFasilitasPageState extends State<LokasiFasilitasPage> {
                         imagePath,
                       ),
                       const SizedBox(width: 12),
-                      // Fitur AR dinonaktifkan
-                      // _buildActionButton(
-                      //   'AR', 
-                      //   Icons.view_in_ar,
-                      //   Colors.blue[100]!, 
-                      //   Colors.blue,
-                      //   title,
-                      //   imagePath,
-                      // ),
+                      _buildActionButton(
+                        'AR', 
+                        Icons.view_in_ar,
+                        Colors.blue[100]!, 
+                        Colors.blue,
+                        title,
+                        imagePath,
+                      ),
                     ],
                   ),
                 ],
@@ -230,10 +229,9 @@ class _LokasiFasilitasPageState extends State<LokasiFasilitasPage> {
       String label, IconData icon, Color bgColor, Color iconColor, String title, String imagePath) {
     return GestureDetector(
       onTap: () {
-        // if (label == 'AR') {
-        //   _openARNavigation(title, imagePath);
-        // } else 
-        if (label == 'Rute') {
+        if (label == 'AR') {
+          _openARNavigation(title, imagePath);
+        } else if (label == 'Rute') {
           // Implementasi rute normal dapat ditambahkan di sini
         }
       },
@@ -261,50 +259,51 @@ class _LokasiFasilitasPageState extends State<LokasiFasilitasPage> {
     );
   }
   
-  // Fitur AR dinonaktifkan
-  // void _openARNavigation(String title, String imagePath) {
-  //   // Cari fasilitas yang sesuai dengan title
-  //   Fasilitas? selectedFasilitas;
-  //   for (var fasilitas in _fasilitasList) {
-  //     if (fasilitas.title == title) {
-  //       selectedFasilitas = fasilitas;
-  //       break;
-  //     }
-  //   }
-  //   
-  //   // Koordinat default jika tidak ditemukan
-  //   String latitude = '-7.3456';
-  //   String longitude = '112.7890';
-  //   
-  //   // Jika fasilitas ditemukan, gunakan data dari Firestore
-  //   // Dalam implementasi nyata, koordinat harus disimpan di Firestore
-  //   if (selectedFasilitas != null) {
-  //     // Gunakan koordinat dari Firestore jika tersedia
-  //     // Untuk contoh ini, kita gunakan koordinat default berdasarkan title
-  //     if (title == 'Gedung Zam-zam') {
-  //       latitude = '-7.3456';
-  //       longitude = '112.7890';
-  //     } else if (title == 'Gedung A2') {
-  //       latitude = '-7.3460';
-  //       longitude = '112.7895';
-  //     }
-  //   }
-  //   
-  //   // Data lokasi untuk AR Navigation
-  //   final targetLocation = {
-  //     'name': title,
-  //     'image': imagePath,
-  //     'coordinates': {
-  //       'latitude': latitude,
-  //       'longitude': longitude,
-  //     }
-  //   };
-  //   
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => ARScreen(targetLocation: targetLocation),
-  //     ),
-  //   );
-  // }
+  void _openARNavigation(String title, String imagePath) {
+    // Cari fasilitas yang sesuai dengan title
+    Fasilitas? selectedFasilitas;
+    for (var fasilitas in _fasilitasList) {
+      if (fasilitas.title == title) {
+        selectedFasilitas = fasilitas;
+        break;
+      }
+    }
+    
+    // Koordinat default berdasarkan title
+    String latitude = '-7.28526975568221';
+    String longitude = '112.778024470646';
+    
+    // Mapping koordinat berdasarkan nama fasilitas
+    if (title.contains('Zam-zam') || title.contains('Zam-zam')) {
+      latitude = '-7.28526975568221';
+      longitude = '112.778024470646';
+    } else if (title.contains('Mina') || title.contains('Hall Mina')) {
+      latitude = '-7.284952331606736';
+      longitude = '112.77897043496384';
+    } else if (title.contains('Muzdalifah')) {
+      latitude = '-7.2852341338859725';
+      longitude = '112.77900526197112';
+    } else if (title.contains('Masjid')) {
+      latitude = '-7.282747114926446';
+      longitude = '112.77830549612212';
+    }
+    
+    // Data lokasi untuk AR Navigation
+    final targetLocation = {
+      'id': selectedFasilitas?.title ?? '0',
+      'name': title,
+      'image': imagePath,
+      'coordinates': {
+        'latitude': latitude,
+        'longitude': longitude,
+      }
+    };
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FacilityARScreen(facility: targetLocation),
+      ),
+    );
+  }
 }

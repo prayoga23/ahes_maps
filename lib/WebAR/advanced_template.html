@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WebAR - AHES Facilities</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+      
+      .ar-info {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        z-index: 1000;
+        max-width: 300px;
+        backdrop-filter: blur(10px);
+      }
+      
+      .ar-info h3 {
+        margin: 0 0 10px 0;
+        color: #4CAF50;
+      }
+      
+      .ar-info p {
+        margin: 5px 0;
+        font-size: 12px;
+      }
+      
+      .ar-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        display: flex;
+        gap: 10px;
+      }
+      
+      .ar-btn {
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 12px;
+        backdrop-filter: blur(10px);
+      }
+      
+      .ar-btn:hover {
+        background: rgba(76, 175, 80, 0.8);
+      }
+      
+      .loading {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1001;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ar-info">
+      <h3 id="facility-name">Loading...</h3>
+      <p id="coordinates">Koordinat: Loading...</p>
+      <p id="distance">Jarak: Loading...</p>
+    </div>
+    
+    <div class="ar-controls">
+      <button class="ar-btn" onclick="toggleInfo()">Toggle Info</button>
+      <button class="ar-btn" onclick="refreshAR()">Refresh AR</button>
+    </div>
+    
+    <div id="loading" class="loading">
+      <p>Memuat AR...</p>
+    </div>
+    
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+    >
+      <!-- AR Content -->
+      <a-text
+        id="ar-text"
+        value="Fasilitas AHES"
+        look-at="[gps-camera]"
+        scale="20 20 20"
+        color="#4CAF50"
+        align="center"
+        gps-entity-place="latitude: 0; longitude: 0;"
+        position="0 5 0"
+      ></a-text>
+      
+      <!-- 3D Marker -->
+      <a-box
+        id="ar-marker"
+        position="0 0 0"
+        scale="3 3 3"
+        color="#FF5722"
+        gps-entity-place="latitude: 0; longitude: 0;"
+        animation="property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true"
+      ></a-box>
+      
+      <!-- Info Panel 3D -->
+      <a-plane
+        id="ar-info-panel"
+        position="0 10 0"
+        scale="8 4 1"
+        color="#000000"
+        opacity="0.8"
+        gps-entity-place="latitude: 0; longitude: 0;"
+        look-at="[gps-camera]"
+      >
+        <a-text
+          id="ar-info-text"
+          value="Info Fasilitas"
+          color="white"
+          align="center"
+          position="0 0 0.1"
+          scale="2 2 2"
+        ></a-text>
+      </a-plane>
+      
+      <a-camera gps-camera rotation-reader> </a-camera>
+    </a-scene>
+
+    <script>
+      let currentFacility = null;
+      let infoVisible = true;
+      
+      // Fungsi untuk mengupdate konten AR
+      function updateARContent(latitude, longitude, facilityName) {
+        currentFacility = { latitude, longitude, facilityName };
+        
+        // Update text AR
+        const arText = document.getElementById('ar-text');
+        arText.setAttribute('value', facilityName);
+        arText.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        
+        // Update marker 3D
+        const arMarker = document.getElementById('ar-marker');
+        arMarker.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        
+        // Update info panel 3D
+        const arInfoPanel = document.getElementById('ar-info-panel');
+        arInfoPanel.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        
+        const arInfoText = document.getElementById('ar-info-text');
+        arInfoText.setAttribute('value', `${facilityName}\nKoordinat: ${latitude}, ${longitude}`);
+        
+        // Update info panel
+        document.getElementById('facility-name').textContent = facilityName;
+        document.getElementById('coordinates').textContent = `Koordinat: ${latitude}, ${longitude}`;
+        
+        // Hide loading
+        document.getElementById('loading').style.display = 'none';
+        
+        // Calculate distance if GPS is available
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            const distance = calculateDistance(userLat, userLng, parseFloat(latitude), parseFloat(longitude));
+            document.getElementById('distance').textContent = `Jarak: ${distance.toFixed(2)} km`;
+          });
+        }
+      }
+      
+      // Calculate distance between two points
+      function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radius of the earth in km
+        const dLat = deg2rad(lat2 - lat1);
+        const dLon = deg2rad(lon2 - lon1);
+        const a = 
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        const d = R * c; // Distance in km
+        return d;
+      }
+      
+      function deg2rad(deg) {
+        return deg * (Math.PI/180);
+      }
+      
+      // Toggle info panel visibility
+      function toggleInfo() {
+        const infoPanel = document.querySelector('.ar-info');
+        infoVisible = !infoVisible;
+        infoPanel.style.display = infoVisible ? 'block' : 'none';
+      }
+      
+      // Refresh AR content
+      function refreshAR() {
+        if (currentFacility) {
+          updateARContent(
+            currentFacility.latitude,
+            currentFacility.longitude,
+            currentFacility.facilityName
+          );
+        }
+      }
+      
+      // Fungsi untuk menerima parameter dari Flutter
+      function setARParameters(params) {
+        if (params && params.latitude && params.longitude && params.facilityName) {
+          updateARContent(params.latitude, params.longitude, params.facilityName);
+        }
+      }
+      
+      // Expose function untuk Flutter
+      window.setARParameters = setARParameters;
+      
+      // Hide loading after 3 seconds
+      setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+      }, 3000);
+    </script>
+  </body>
+</html> 

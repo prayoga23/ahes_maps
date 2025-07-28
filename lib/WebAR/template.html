@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>WebAR - GPS</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <style>
+      .ar-info {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+
+  <body style="margin: 0; overflow: hidden">
+    <div class="ar-info">
+      <h3 id="facility-name">Loading...</h3>
+      <p id="coordinates">Koordinat: Loading...</p>
+    </div>
+    
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+      <!-- AR Content akan ditampilkan di sini -->
+      <a-text
+        id="ar-text"
+        value="Fasilitas AHES"
+        look-at="[gps-camera]"
+        scale="15 15 15"
+        color="#00ff00"
+        gps-entity-place="latitude: 0; longitude: 0;"
+      ></a-text>
+      
+      <!-- Marker 3D untuk lokasi -->
+      <a-box
+        id="ar-marker"
+        position="0 0 0"
+        scale="2 2 2"
+        color="#ff0000"
+        gps-entity-place="latitude: 0; longitude: 0;"
+      ></a-box>
+      
+      <a-camera gps-camera rotation-reader> </a-camera>
+    </a-scene>
+
+    <script>
+      // Fungsi untuk mengupdate koordinat dan nama fasilitas
+      function updateARContent(latitude, longitude, facilityName) {
+        // Update text AR
+        const arText = document.getElementById('ar-text');
+        arText.setAttribute('value', facilityName);
+        arText.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        
+        // Update marker 3D
+        const arMarker = document.getElementById('ar-marker');
+        arMarker.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+        
+        // Update info panel
+        document.getElementById('facility-name').textContent = facilityName;
+        document.getElementById('coordinates').textContent = `Koordinat: ${latitude}, ${longitude}`;
+      }
+      
+      // Fungsi untuk menerima parameter dari Flutter
+      function setARParameters(params) {
+        if (params && params.latitude && params.longitude && params.facilityName) {
+          updateARContent(params.latitude, params.longitude, params.facilityName);
+        }
+      }
+      
+      // Expose function untuk Flutter
+      window.setARParameters = setARParameters;
+    </script>
+  </body>
+</html> 

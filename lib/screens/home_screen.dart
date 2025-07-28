@@ -3,6 +3,7 @@ import 'package:ahes_maps/screens/jadwal_ibadah.dart';
 import 'package:ahes_maps/screens/login_screen.dart';
 import 'package:ahes_maps/screens/lokasi_fasilitas.dart';
 import 'package:ahes_maps/screens/panduan_haji.dart';
+import 'package:ahes_maps/screens/facility_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,6 +18,18 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.green,
         toolbarHeight: 45,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.view_in_ar),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FacilityListScreen(),
+                ),
+              );
+            },
+            tooltip: 'AR Fasilitas',
+          ),
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
@@ -98,6 +111,7 @@ class HomePage extends StatelessWidget {
                       _buildMenuCard(
                           context, 'Lokasi\nFasilitas', Icons.location_on),
                       _buildMenuCard(context, 'Panduan\nHaji', Icons.book),
+                      _buildMenuCard(context, 'AR\nFasilitas', Icons.view_in_ar),
                     ],
                   ),
                   SizedBox(height: 20),
@@ -177,6 +191,10 @@ class HomePage extends StatelessWidget {
             icon: Icon(Icons.map),
             label: 'Peta',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.view_in_ar),
+            label: 'AR',
+          ),
         ],
         onTap: (index) {
           if (index == 1) {
@@ -191,6 +209,13 @@ class HomePage extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => const LokasiFasilitasPage()),
+            );
+          } else if (index == 3) {
+            // AR
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FacilityListScreen()),
             );
           }
           // Add navigation for other tabs as needed
@@ -224,6 +249,12 @@ class HomePage extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) => const LokasiFasilitasPage()),
+            );
+          } else if (label.contains('AR\nFasilitas')) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FacilityListScreen()),
             );
           }
         },

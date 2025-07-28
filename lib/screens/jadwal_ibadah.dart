@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'facility_list_screen.dart';
 
 class JadwalIbadahPage extends StatelessWidget {
   const JadwalIbadahPage({super.key});
@@ -14,6 +15,20 @@ class JadwalIbadahPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.view_in_ar),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FacilityListScreen(),
+                ),
+              );
+            },
+            tooltip: 'AR Fasilitas',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

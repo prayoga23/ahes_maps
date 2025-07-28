@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/database_service.dart';
 import '../models/jadwal_model.dart';
 import 'package:logger/logger.dart';
+import 'facility_list_screen.dart';
 
 class JadwalPage extends StatefulWidget {
   const JadwalPage({super.key});
@@ -61,10 +62,16 @@ class _JadwalPageState extends State<JadwalPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications),
+            icon: const Icon(Icons.view_in_ar),
             onPressed: () {
-              // Notification action
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FacilityListScreen(),
+                ),
+              );
             },
+            tooltip: 'AR Fasilitas',
           ),
         ],
       ),

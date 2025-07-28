@@ -1,6 +1,6 @@
 List<Map> asrama = [
   {
-    'id': '0',
+    'id': '1',
     'name': 'Gedung Hall Mina',
     'image': 'assets/image/hall_mina.jpg',
     'coordinates': {
@@ -9,7 +9,7 @@ List<Map> asrama = [
     },
   },
   {
-    'id': '0',
+    'id': '2',
     'name': 'Gedung Muzdalifah',
     'image': 'assets/image/musdhalifah.jpg',
     'coordinates': {
@@ -18,7 +18,7 @@ List<Map> asrama = [
     },
   },
   {
-    'id': '0',
+    'id': '3',
     'name': 'Gedung Zam-Zam',
     'image': 'assets/image/zam-zam.jpg',
     'coordinates': {
@@ -27,7 +27,7 @@ List<Map> asrama = [
     },
   },
   {
-    'id': '0',
+    'id': '4',
     'name': 'Masjid',
     'image': 'assets/image/masjid.jpg',
     'coordinates': {

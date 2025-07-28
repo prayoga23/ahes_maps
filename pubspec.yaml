@@ -98,10 +98,7 @@ flutter:
       # Add the config directory
       - assets/config/
       - assets/pdf/buku_panduan_haji.pdf
-      - assets/image/zam-zam.jpg
-      - assets/splash/start.png
-      - assets/3d/map_pointer.glb
-      - assets/3d/arrow.glb
+      # WebAR assets
       - lib/WebAR/
 
 mapbox_gl:

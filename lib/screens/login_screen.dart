@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ahes_maps/constants/colors.dart';
 import 'package:ahes_maps/controller/login_controller.dart';
 import 'package:ahes_maps/screens/new_home_screen/main_jemaah_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
