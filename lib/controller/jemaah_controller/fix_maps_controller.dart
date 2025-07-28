@@ -295,9 +295,40 @@ class FixMapsController extends GetxController {
       final lon = double.parse(asramaBaru[index]['long']);
       final lat = double.parse(asramaBaru[index]['lat']);
 
-      // Load icon image
-      final ByteData bytes = await rootBundle.load("assets/icon/bed.png");
-      final Uint8List iconImage = bytes.buffer.asUint8List();
+      // Determine icon based on facility name
+      String iconPath = "assets/icon/bed.png"; // Default icon for accommodation buildings
+      final namaGedung = asramaBaru[index]['nama_gedung'].toString().toLowerCase();
+      
+      // Icon mapping based on facility type
+      if (namaGedung.contains('masjid')) {
+        iconPath = "assets/icon/mosque.png"; // Mosque icon for prayer facilities
+      } else if (namaGedung.contains('hall mina') || namaGedung.contains('mina')) {
+        iconPath = "assets/icon/bed.png"; // Bed icon for Hall Mina accommodation
+      } else if (namaGedung.contains('muzdalifah') || namaGedung.contains('muzdhalifah')) {
+        iconPath = "assets/icon/bed.png"; // Bed icon for Muzdalifah accommodation
+      } else if (namaGedung.contains('zam-zam') || namaGedung.contains('zamzam')) {
+        iconPath = "assets/icon/bed.png"; // Bed icon for Zam-Zam accommodation
+      } else if (namaGedung.contains('klinik') || namaGedung.contains('kesehatan')) {
+        iconPath = "assets/icon/bed.png"; // Default icon for clinic (can be replaced with clinic.png)
+      } else if (namaGedung.contains('kantin') || namaGedung.contains('makan')) {
+        iconPath = "assets/icon/bed.png"; // Default icon for dining (can be replaced with dining.png)
+      } else if (namaGedung.contains('toilet') || namaGedung.contains('wc')) {
+        iconPath = "assets/icon/bed.png"; // Default icon for toilet (can be replaced with toilet.png)
+      }
+      // For future: Add more specific icons like dining.png, clinic.png, toilet.png, etc.
+      
+      _logger.i("Using icon: $iconPath for facility: ${asramaBaru[index]['nama_gedung']}");
+
+      // Load icon image with fallback
+      Uint8List iconImage;
+      try {
+        final ByteData bytes = await rootBundle.load(iconPath);
+        iconImage = bytes.buffer.asUint8List();
+      } catch (e) {
+        _logger.e("Error loading icon $iconPath: $e, using fallback");
+        final ByteData bytes = await rootBundle.load("assets/icon/bed.png");
+        iconImage = bytes.buffer.asUint8List();
+      }
 
       // Create point annotation
       final options = PointAnnotationOptions(
