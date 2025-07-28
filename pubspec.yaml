@@ -95,6 +95,9 @@ flutter:
       - assets/image/
       - assets/image/hall_mina.jpg
       - assets/image/masjid.jpg
+      - assets/image/logo_kemenag.png
+      - assets/image/background_login.png
+      - assets/splash/start.png
       # Add the config directory
       - assets/config/
       - assets/pdf/buku_panduan_haji.pdf
