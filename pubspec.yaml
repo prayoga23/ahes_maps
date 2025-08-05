@@ -66,6 +66,8 @@ dependencies:
   simple_circular_progress_bar: ^1.0.2
   url_launcher: ^6.3.1
   webview_flutter: ^4.7.0
+  video_player: ^2.8.1
+  chewie: ^1.7.4
   
 dev_dependencies:
   flutter_test:
@@ -97,6 +99,7 @@ flutter:
       - assets/image/masjid.jpg
       - assets/image/logo_kemenag.png
       - assets/image/background_login.png
+      - assets/image/Video_AR.mov
       - assets/splash/start.png
       # Add the config directory
       - assets/config/

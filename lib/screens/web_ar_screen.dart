@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
 class WebARScreen extends StatefulWidget {
   const WebARScreen({super.key});
@@ -10,6 +12,9 @@ class WebARScreen extends StatefulWidget {
 class _WebARScreenState extends State<WebARScreen> {
   bool isLoading = true;
   bool isARActive = false;
+  bool isVideoPlaying = false;
+  VideoPlayerController? _videoPlayerController;
+  ChewieController? _chewieController;
 
   @override
   void initState() {
@@ -25,21 +30,41 @@ class _WebARScreenState extends State<WebARScreen> {
   }
 
   @override
+  void dispose() {
+    _videoPlayerController?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/image/gambar-masjid.jpg'),
-                fit: BoxFit.cover,
+          // Background Image or Video
+          if (!isVideoPlaying)
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/image/gambar-masjid.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
+            )
+          else
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: _chewieController != null
+                  ? Chewie(controller: _chewieController!)
+                  : const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                      ),
+                    ),
             ),
-          ),
           
           // Loading overlay
           if (isLoading)
@@ -66,7 +91,7 @@ class _WebARScreenState extends State<WebARScreen> {
             ),
           
           // Interface Overlay
-          if (!isLoading)
+          if (!isLoading && !isVideoPlaying)
             _buildInterface(),
         ],
       ),
@@ -213,11 +238,12 @@ class _WebARScreenState extends State<WebARScreen> {
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(12),
-                          onTap: () {
+                          onTap: () async {
                             setState(() {
                               isARActive = true;
+                              isVideoPlaying = true;
                             });
-                            _showImageInfo();
+                            await _initializeVideo();
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -342,5 +368,43 @@ class _WebARScreenState extends State<WebARScreen> {
         );
       },
     );
+  }
+
+  Future<void> _initializeVideo() async {
+    try {
+      _videoPlayerController = VideoPlayerController.asset('assets/image/Video_AR.mov');
+      await _videoPlayerController!.initialize();
+      
+      _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController!,
+        autoPlay: true,
+        looping: false,
+        allowFullScreen: true,
+        allowMuting: true,
+        showControls: true,
+        materialProgressColors: ChewieProgressColors(
+          playedColor: Colors.green,
+          handleColor: Colors.green,
+          backgroundColor: Colors.grey,
+          bufferedColor: Colors.grey.shade300,
+        ),
+      );
+      
+      setState(() {});
+      
+      // Listen for video completion
+      _videoPlayerController!.addListener(() {
+        if (_videoPlayerController!.value.position >= _videoPlayerController!.value.duration) {
+          setState(() {
+            isVideoPlaying = false;
+          });
+        }
+      });
+    } catch (e) {
+      print('Error initializing video: $e');
+      setState(() {
+        isVideoPlaying = false;
+      });
+    }
   }
 } 

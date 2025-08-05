@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/asrama.dart';
-import 'facility_ar_screen.dart';
+import 'web_ar_screen.dart';
 
 class FacilityListScreen extends StatelessWidget {
   const FacilityListScreen({super.key});
@@ -81,9 +81,7 @@ class FacilityListScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => FacilityARScreen(
-                                      facility: facility,
-                                    ),
+                                    builder: (context) => WebARScreen(),
                                   ),
                                 );
                               },
