@@ -80,7 +80,7 @@ class _WebARScreenState extends State<WebARScreen> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade600,
+                          color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
