@@ -1,6 +1,7 @@
 import 'package:ahes_maps/controller/admin_controller/fasilitas_admin_controller.dart';
 import 'package:ahes_maps/screens/admin/fasilitas_admin/post_fasilitas_screen.dart';
 import 'package:ahes_maps/screens/new_home_screen/fix_maps_screen.dart';
+import 'package:ahes_maps/screens/web_ar_screen.dart';
 import 'package:ahes_maps/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -158,10 +159,7 @@ class FasilitasAdminScreen extends StatelessWidget {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                          // ToastMessage.showSuccess(context,
-                                          //     'Nanti Route nya dari sini');
-                                          // Get.to(() => MapScreen());
-                                          Get.to(() => FixMapsScreen());
+                                          Get.to(() => WebARScreen());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.white,
@@ -184,8 +182,7 @@ class FasilitasAdminScreen extends StatelessWidget {
                                       SizedBox(width: 16),
                                       ElevatedButton(
                                         onPressed: () {
-                                          ToastMessage.showSuccess(context,
-                                              'Nanti AR nya dari sini');
+                                          Get.to(() => WebARScreen());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.white,
