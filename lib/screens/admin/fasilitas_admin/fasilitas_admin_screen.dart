@@ -1,8 +1,7 @@
 import 'package:ahes_maps/controller/admin_controller/fasilitas_admin_controller.dart';
 import 'package:ahes_maps/screens/admin/fasilitas_admin/post_fasilitas_screen.dart';
-import 'package:ahes_maps/screens/new_home_screen/fix_maps_screen.dart';
 import 'package:ahes_maps/screens/web_ar_screen.dart';
-import 'package:ahes_maps/widgets/toast_message.dart';
+import 'package:ahes_maps/screens/new_home_screen/fix_maps_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
@@ -159,7 +158,7 @@ class FasilitasAdminScreen extends StatelessWidget {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                          Get.to(() => WebARScreen());
+                                          Get.to(() => FixMapsScreen());
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.white,

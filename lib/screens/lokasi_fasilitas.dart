@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/fasilitas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'facility_ar_screen.dart';
+import 'new_home_screen/fix_maps_screen.dart';
 
 class LokasiFasilitasPage extends StatefulWidget {
   const LokasiFasilitasPage({super.key});
@@ -232,7 +233,12 @@ class _LokasiFasilitasPageState extends State<LokasiFasilitasPage> {
         if (label == 'AR') {
           _openARNavigation(title, imagePath);
         } else if (label == 'Rute') {
-          // Implementasi rute normal dapat ditambahkan di sini
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FixMapsScreen(),
+            ),
+          );
         }
       },
       child: Container(
